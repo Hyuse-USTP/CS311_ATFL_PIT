@@ -2,6 +2,7 @@
 Automata Theory and Formal Languages course work's Performance Innovative Task
 
 This is the Protocol Validation code base for Topic 2's requirement.
+It contains 3 Visualizers, and the base TCP 3-Way Handshake PDA code.
 
 Topic 2: Network Security and Protocol Analysis
 
