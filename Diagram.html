@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body { background-color: #121212; font-family: 'Segoe UI', 'Roboto', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    
+    /* CONTAINER */
+    .diagram-box { position: relative; width: 950px; height: 600px; background: #1e1e1e; border: 2px solid #333; border-radius: 15px; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+    .title { position: absolute; top: 20px; width: 100%; text-align: center; color: #00e5ff; font-weight: bold; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; }
+    .subtitle { position: absolute; top: 50px; width: 100%; text-align: center; color: #777; font-size: 14px; }
+
+    /* 7-TUPLE BOX (NEW FEATURE) */
+    .tuple-box {
+        position: absolute; top: 20px; right: 20px; width: 220px;
+        background: rgba(0, 0, 0, 0.6); border: 1px solid #444; border-radius: 8px;
+        padding: 15px; font-family: 'Consolas', monospace; font-size: 12px; color: #aaa;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 10;
+    }
+    .tuple-header { color: #00e5ff; font-weight: bold; border-bottom: 1px solid #444; padding-bottom: 5px; margin-bottom: 8px; display: block; }
+    .tuple-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .tuple-key { color: #ddd; font-weight: bold; }
+    .tuple-val { color: #888; text-align: right; }
+
+    /* NODES */
+    .node { position: absolute; width: 100px; height: 100px; border-radius: 50%; border: 3px solid #555; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; color: #fff; background: #121212; z-index: 2; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+    .node span { font-size: 11px; color: #888; font-weight: normal; margin-top: 2px;}
+    
+    #q0 { top: 220px; left: 80px; }
+    #q1 { top: 220px; left: 400px; border-color: #00e5ff; background: #002233; box-shadow: 0 0 20px rgba(0, 229, 255, 0.3); }
+    #q2 { top: 220px; left: 720px; border-style: double; border-width: 6px; }
+    #trap { top: 460px; left: 400px; border-radius: 15px; width: 140px; height: 70px; border-color: #d32f2f; background: #330000; color: #ff8a80; box-shadow: 0 0 20px rgba(211, 47, 47, 0.3); }
+
+    /* SVG LINES */
+    svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+    .arrow-line { stroke: #00e5ff; stroke-width: 2; fill: none; }
+    .arrow-head { fill: #00e5ff; }
+    .trap-line { stroke: #d32f2f; stroke-width: 2; stroke-dasharray: 5,5; fill: none; }
+    .trap-head { fill: #d32f2f; }
+
+    /* HYBRID LABELS */
+    .label-container { position: absolute; display: flex; flex-direction: column; align-items: center; background: #1e1e1e; padding: 5px 10px; border-radius: 6px; border: 1px solid #444; box-shadow: 0 4px 10px rgba(0,0,0,0.6); z-index: 3; }
+    .tuple-text { font-family: 'Consolas', monospace; font-size: 13px; color: #00e5ff; font-weight: bold; margin-bottom: 2px; }
+    .desc-text { font-family: 'Segoe UI', sans-serif; font-size: 11px; color: #ddd; font-style: italic; }
+    
+    .trap-style { border-color: #d32f2f; }
+    .trap-style .tuple-text { color: #ff8a80; }
+    .trap-style .desc-text { color: #ffab91; }
+
+</style>
+</head>
+<body>
+
+<div class="diagram-box">
+    <div class="title">Hybrid PDA Visualization</div>
+    <div class="subtitle">Formal Definition (Tuples) + Real World Context</div>
+
+    <div class="tuple-box">
+        <span class="tuple-header">PDA Definition M</span>
+        <div class="tuple-row"><span class="tuple-key">Q</span> <span class="tuple-val">{q0, q1, q2, Trap}</span></div>
+        <div class="tuple-row"><span class="tuple-key">Σ</span> <span class="tuple-val">{SYN, DATA, FIN}</span></div>
+        <div class="tuple-row"><span class="tuple-key">Γ</span> <span class="tuple-val">{Z0, S}</span></div>
+        <div class="tuple-row"><span class="tuple-key">δ</span> <span class="tuple-val">Transition Func</span></div>
+        <div class="tuple-row"><span class="tuple-key">q0</span> <span class="tuple-val">q0 (Listen)</span></div>
+        <div class="tuple-row"><span class="tuple-key">Z0</span> <span class="tuple-val">Z0 (Base)</span></div>
+        <div class="tuple-row"><span class="tuple-key">F</span> <span class="tuple-val">{q2}</span></div>
+    </div>
+
+    <div id="q0" class="node">q0<span>Listen</span></div>
+    <div id="q1" class="node">q1<span>Active</span></div>
+    <div id="q2" class="node">q2<span>Closed</span></div>
+    <div id="trap" class="node">TRAP<span>Intrusion</span></div>
+
+    <div class="label-container" style="top: 190px; left: 210px;">
+        <div class="tuple-text">SYN, Z0 → S Z0</div>
+        <div class="desc-text">[ Handshake ]</div>
+    </div>
+
+    <div class="label-container" style="top: 140px; left: 420px;">
+        <div class="tuple-text">DATA, S → S</div>
+        <div class="desc-text">[ Secure Tunnel ]</div>
+    </div>
+
+    <div class="label-container" style="top: 190px; left: 560px;">
+        <div class="tuple-text">FIN, S → ε</div>
+        <div class="desc-text">[ Teardown ]</div>
+    </div>
+    
+    <div class="label-container trap-style" style="top: 370px; left: 170px;">
+        <div class="tuple-text">DATA, Z0 → Z0</div>
+        <div class="desc-text">[ Bad Protocol ]</div>
+    </div>
+    <div class="label-container trap-style" style="top: 390px; left: 435px;">
+        <div class="tuple-text">DATA, Z0 → Z0</div>
+        <div class="desc-text">[ Session Hijack ]</div>
+    </div>
+    <div class="label-container trap-style" style="top: 370px; left: 660px;">
+        <div class="tuple-text">DATA, Z0 → Z0</div>
+        <div class="desc-text">[ Zombie Data ]</div>
+    </div>
+
+    <svg>
+        <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" class="arrow-head" />
+            </marker>
+            <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" class="trap-head" />
+            </marker>
+        </defs>
+
+        <path d="M 183 270 L 397 270" class="arrow-line" marker-end="url(#arrow)"/>
+        <path d="M 430 220 C 400 150, 510 150, 480 220" class="arrow-line" marker-end="url(#arrow)"/>
+        <path d="M 503 270 L 714 270" class="arrow-line" marker-end="url(#arrow)"/>
+
+        <path d="M 150 315 Q 150 495 395 495" class="trap-line" marker-end="url(#arrow-red)"/>
+        <path d="M 450 323 L 450 455" class="trap-line" marker-end="url(#arrow-red)"/>
+        <path d="M 750 315 Q 750 495 545 495" class="trap-line" marker-end="url(#arrow-red)"/>
+
+    </svg>
+</div>
+
+</body>
+</html>
