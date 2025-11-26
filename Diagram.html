@@ -9,7 +9,7 @@
     .title { position: absolute; top: 20px; width: 100%; text-align: center; color: #00e5ff; font-weight: bold; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; }
     .subtitle { position: absolute; top: 50px; width: 100%; text-align: center; color: #777; font-size: 14px; }
 
-    /* 7-TUPLE BOX (NEW FEATURE) */
+    /* 7-TUPLE DEFINITION BOX */
     .tuple-box {
         position: absolute; top: 20px; right: 20px; width: 220px;
         background: rgba(0, 0, 0, 0.6); border: 1px solid #444; border-radius: 8px;
@@ -57,7 +57,7 @@
     <div class="tuple-box">
         <span class="tuple-header">PDA Definition M</span>
         <div class="tuple-row"><span class="tuple-key">Q</span> <span class="tuple-val">{q0, q1, q2, Trap}</span></div>
-        <div class="tuple-row"><span class="tuple-key">Σ</span> <span class="tuple-val">{SYN, DATA, FIN}</span></div>
+        <div class="tuple-row"><span class="tuple-key">Σ</span> <span class="tuple-val">{SYN, ACK, DATA, FIN}</span></div>
         <div class="tuple-row"><span class="tuple-key">Γ</span> <span class="tuple-val">{Z0, S}</span></div>
         <div class="tuple-row"><span class="tuple-key">δ</span> <span class="tuple-val">Transition Func</span></div>
         <div class="tuple-row"><span class="tuple-key">q0</span> <span class="tuple-val">q0 (Listen)</span></div>
@@ -75,8 +75,8 @@
         <div class="desc-text">[ Handshake ]</div>
     </div>
 
-    <div class="label-container" style="top: 140px; left: 420px;">
-        <div class="tuple-text">DATA, S → S</div>
+    <div class="label-container" style="top: 140px; left: 410px;">
+        <div class="tuple-text">DATA/ACK, S → S</div>
         <div class="desc-text">[ Secure Tunnel ]</div>
     </div>
 
@@ -89,10 +89,12 @@
         <div class="tuple-text">DATA, Z0 → Z0</div>
         <div class="desc-text">[ Bad Protocol ]</div>
     </div>
+
     <div class="label-container trap-style" style="top: 390px; left: 435px;">
         <div class="tuple-text">DATA, Z0 → Z0</div>
         <div class="desc-text">[ Session Hijack ]</div>
     </div>
+
     <div class="label-container trap-style" style="top: 370px; left: 660px;">
         <div class="tuple-text">DATA, Z0 → Z0</div>
         <div class="desc-text">[ Zombie Data ]</div>
